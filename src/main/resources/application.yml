@@ -6,3 +6,6 @@ spring:
     show-sql: true
 #  datasource:
 #    embedded-database-connection: h2
+application:
+  provider:
+    url: "http://ipwhois.app/json/"

@@ -1,12 +1,19 @@
 package com.example.iplogger.domain.providers.ipWhoIsProvider;
 
+import com.example.iplogger.domain.ip.IpResponse;
+import com.example.iplogger.domain.providers.interfaces.IpInfoProvider;
 import lombok.Data;
 
 @Data
-public class IpWhoIsInfo {
-
-    private String ip;
-    private String success,
+public class IpWhoIsInfo implements IpInfoProvider {
+    private double completed_requests,
+            currency_rates,
+            latitude,
+            longitude,
+            timezone_gmtOffset,
+            timezone_dstOffset;
+    private String ip,
+            success,
             type,
             continent,
             continent_code,
@@ -18,20 +25,25 @@ public class IpWhoIsInfo {
             country_neighbours,
             region,
             city,
-            latitude,
-            longitude,
             asn,
             org,
             isp,
             timezone,
             timezone_name,
-            timezone_dstOffset,
-            timezone_gmtOffset,
             timezone_gmt,
             currency,
             currency_code,
             currency_symbol,
-            currency_rates,
-            currency_plural,
-            completed_requests;
+            currency_plural;
+
+    @Override
+    public IpResponse getIpInfo() {
+        return IpResponse.builder()
+                .city(this.city)
+                .country(this.country)
+                .coordinates(new IpResponse.Coordinates(this.latitude, this.longitude))
+                .ip(this.ip)
+                .isp(this.isp)
+                .build();
+    }
 }

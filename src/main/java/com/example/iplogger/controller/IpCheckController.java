@@ -25,27 +25,28 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/ip-check")
 public class IpCheckController {
-    //TODO: поменять репу, продумать как сохранять
-//    private final PagingAndSortingRepository<IpData, String> repo;
+    private final PagingAndSortingRepository<IpData, String> ipRequestsRepository;
     private final IpInfoService ipInfoService;
 
     @GetMapping
-    public IpResponse getInfoByIp(@RequestBody IpRequest request, @RequestHeader(value = "User-Agent", required = false) String userAgent) {
-        log.info("Recieved request for IP: {}", request);
-        IpResponse response = ipInfoService.getInfoByIp(request.getIp());
+    public IpResponse getInfoByIp(@RequestBody IpRequest request, @RequestHeader(value = "User-Agent", required = false) String userAgent, HttpServletRequest httpServletRequest) {
+        String requestedIp = request.getIp();
+        log.info("Received request for IP: {} from {}", request, requestedIp);
+        IpResponse response = ipInfoService.getInfoByIp(requestedIp);
         response.setBrowser(getBrowserByUserAgent(userAgent));
-        //TODO: сохранить в БД
-//        repo.save(ipData);
+        IpData record = new IpData(response, httpServletRequest.getRemoteAddr());
+        ipRequestsRepository.save(record);
         return response;
     }
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/me")
     public IpResponse getOwnIpData(HttpServletRequest req, @RequestHeader(value = "User-Agent", required = false) String userAgent) {
-        String remoteAddr = req.getRemoteAddr();
-        log.info("Recieved request for IP: {}", remoteAddr);
-        IpResponse infoByIp = ipInfoService.getInfoByIp(remoteAddr);
+        String remoteAddress = req.getRemoteAddr();
+        log.info("Received request for own IP: {}", remoteAddress);
+        IpResponse infoByIp = ipInfoService.getInfoByIp(remoteAddress);
         infoByIp.setBrowser(getBrowserByUserAgent(userAgent));
-//        repo.save(infoByIp);
+        IpData record = new IpData(infoByIp, remoteAddress);
+        ipRequestsRepository.save(record);
         return infoByIp;
     }
 
@@ -62,6 +63,6 @@ public class IpCheckController {
     @Autowired
     public IpCheckController(IpInfoService ipInfoService, PagingAndSortingRepository<IpData, String> repo) {
         this.ipInfoService = ipInfoService;
-//        this.repo = repo;
+        this.ipRequestsRepository = repo;
     }
 }

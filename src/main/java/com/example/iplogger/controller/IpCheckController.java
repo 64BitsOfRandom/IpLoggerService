@@ -1,8 +1,8 @@
 package com.example.iplogger.controller;
 
-import com.example.iplogger.domain.IpData;
-import com.example.iplogger.domain.ip.IpRequest;
-import com.example.iplogger.domain.ip.IpResponse;
+import com.example.iplogger.domain.persistance.IpData;
+import com.example.iplogger.domain.rest.ipchecker.IpRequest;
+import com.example.iplogger.domain.rest.ipchecker.IpResponse;
 import com.example.iplogger.service.IpInfoService;
 import eu.bitwalker.useragentutils.Browser;
 import eu.bitwalker.useragentutils.UserAgent;

@@ -1,7 +1,7 @@
 package com.example.iplogger.service;
 
-import com.example.iplogger.domain.ip.IpResponse;
-import com.example.iplogger.domain.providers.ipWhoIsProvider.IpWhoIsInfo;
+import com.example.iplogger.domain.rest.ipchecker.IpResponse;
+import com.example.iplogger.domain.rest.providers.ipWhoIsProvider.IpWhoIsInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;

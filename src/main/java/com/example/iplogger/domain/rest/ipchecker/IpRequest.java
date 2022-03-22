@@ -1,4 +1,4 @@
-package com.example.iplogger.domain.ip;
+package com.example.iplogger.domain.rest.ipchecker;
 
 import lombok.Data;
 

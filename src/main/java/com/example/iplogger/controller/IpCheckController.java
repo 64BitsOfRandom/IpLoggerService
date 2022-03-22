@@ -4,6 +4,8 @@ import com.example.iplogger.domain.IpData;
 import com.example.iplogger.domain.ip.IpRequest;
 import com.example.iplogger.domain.ip.IpResponse;
 import com.example.iplogger.service.IpInfoService;
+import eu.bitwalker.useragentutils.Browser;
+import eu.bitwalker.useragentutils.UserAgent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -47,14 +49,14 @@ public class IpCheckController {
         return infoByIp;
     }
 
-
-    private String getBrowserByUserAgent(String userAgent) {
-        if (StringUtils.hasLength(userAgent)){
+    private String getBrowserByUserAgent(String userAgentHeader) {
+        if (!StringUtils.hasLength(userAgentHeader)){
             log.info("User-Agent Header is Empty: no info provided");
             return "NOT_DEFINED";
         }
-        //TODO: распарсить заголовок браузера
-        return "";
+        UserAgent userAgent = UserAgent.parseUserAgentString(userAgentHeader);
+        Browser browser = userAgent.getBrowser();
+        return browser.getName();
     }
 
     @Autowired

@@ -1,7 +1,7 @@
-package com.example.iplogger.domain.providers.ipWhoIsProvider;
+package com.example.iplogger.domain.rest.providers.ipWhoIsProvider;
 
-import com.example.iplogger.domain.ip.IpResponse;
-import com.example.iplogger.domain.providers.interfaces.IpInfoProvider;
+import com.example.iplogger.domain.rest.ipchecker.IpResponse;
+import com.example.iplogger.domain.rest.providers.interfaces.IpInfoProvider;
 import lombok.Data;
 
 @Data

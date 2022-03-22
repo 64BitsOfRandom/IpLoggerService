@@ -1,6 +1,6 @@
 package com.example.iplogger.service;
 
-import com.example.iplogger.domain.IpData;
+import com.example.iplogger.domain.ip.IpResponse;
 import com.example.iplogger.domain.providers.ipWhoIsProvider.IpWhoIsInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +15,7 @@ public class IpInfoService {
     @Value("${application.provider.url}")
     private String providerUrl;
 
-    public IpData getInfoByIp(String targetAddress) {
+    public IpResponse getInfoByIp(String targetAddress) {
         String urlToApi = providerUrl.concat(targetAddress);
         ResponseEntity<IpWhoIsInfo> entity = template.getForEntity(urlToApi, IpWhoIsInfo.class);
         IpWhoIsInfo body = entity.getBody();

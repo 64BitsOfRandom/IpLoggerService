@@ -1,11 +1,13 @@
 package com.example.iplogger.controller;
 
 import com.example.iplogger.domain.IpData;
-import com.example.iplogger.domain.IpRequest;
+import com.example.iplogger.domain.ip.IpRequest;
+import com.example.iplogger.domain.ip.IpResponse;
 import com.example.iplogger.service.IpInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
  * на вход приходит IP, на выходе - данные от провайдера. Сейчас реализован ipwhois.
  * TODO: сделать  интеграцию ipregistry.co (он точнее)
  * TODO: обеспечить модульность и переключаемость источника
- * TODO: сделать реализацию внутреннего хранилища ???
  * TODO: может кэш?
  */
 
@@ -22,27 +23,43 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/ip-check")
 public class IpCheckController {
-    private final PagingAndSortingRepository<IpData, String> repo;
+    //TODO: поменять репу, продумать как сохранять
+//    private final PagingAndSortingRepository<IpData, String> repo;
     private final IpInfoService ipInfoService;
 
     @GetMapping
-    public IpData getInfoByIp(@RequestBody IpRequest request) {
+    public IpResponse getInfoByIp(@RequestBody IpRequest request, @RequestHeader(value = "User-Agent", required = false) String userAgent) {
         log.info("Recieved request for IP: {}", request);
-        IpData ipData = ipInfoService.getInfoByIp(request.getIp());
-        repo.save(ipData);
-        return ipData;
+        IpResponse response = ipInfoService.getInfoByIp(request.getIp());
+        response.setBrowser(getBrowserByUserAgent(userAgent));
+        //TODO: сохранить в БД
+//        repo.save(ipData);
+        return response;
     }
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/me")
-        public IpData getOwnIpData(HttpServletRequest req){
+    public IpResponse getOwnIpData(HttpServletRequest req, @RequestHeader(value = "User-Agent", required = false) String userAgent) {
         String remoteAddr = req.getRemoteAddr();
-        IpData infoByIp = ipInfoService.getInfoByIp(remoteAddr);
-        return repo.save(infoByIp);
+        log.info("Recieved request for IP: {}", remoteAddr);
+        IpResponse infoByIp = ipInfoService.getInfoByIp(remoteAddr);
+        infoByIp.setBrowser(getBrowserByUserAgent(userAgent));
+//        repo.save(infoByIp);
+        return infoByIp;
+    }
+
+
+    private String getBrowserByUserAgent(String userAgent) {
+        if (StringUtils.hasLength(userAgent)){
+            log.info("User-Agent Header is Empty: no info provided");
+            return "NOT_DEFINED";
+        }
+        //TODO: распарсить заголовок браузера
+        return "";
     }
 
     @Autowired
     public IpCheckController(IpInfoService ipInfoService, PagingAndSortingRepository<IpData, String> repo) {
         this.ipInfoService = ipInfoService;
-        this.repo = repo;
+//        this.repo = repo;
     }
 }

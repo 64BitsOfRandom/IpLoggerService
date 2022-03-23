@@ -27,7 +27,7 @@ public class RandomCharSequenceSupplier implements Supplier<String> {
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
     }
 
-    private class AlphaNumericPredicate implements IntPredicate {
+    private static class AlphaNumericPredicate implements IntPredicate {
         @Override
         public boolean test(int value) {
             return value > 64 && value < 91 || // nums

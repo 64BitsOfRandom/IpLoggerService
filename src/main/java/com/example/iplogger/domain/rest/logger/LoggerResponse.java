@@ -10,4 +10,5 @@ public class LoggerResponse {
     private String originateUrl;
     private String shortLink;
     private String statisticsUrl;
+    private String detailedStatisticsUrl;
 }

@@ -19,7 +19,7 @@ public class LoggerStatisticsRecord {
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    private long id;
+    private String id;
     private LocalDateTime requestTime;
 
     private String loggerId,

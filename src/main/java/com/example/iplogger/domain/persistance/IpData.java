@@ -17,7 +17,7 @@ public class IpData {
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    private long id;
+    private String id;
     @Column(updatable = false)
     private LocalDateTime created;
     private String originateIp;

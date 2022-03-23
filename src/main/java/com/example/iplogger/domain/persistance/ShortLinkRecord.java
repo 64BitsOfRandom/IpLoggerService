@@ -18,6 +18,7 @@ public class ShortLinkRecord {
     private String originateUrl;
     private String shortLink;
     private String statisticsUrl;
+    private String detailedStatisticsUrl;
 
     private int counter;
 

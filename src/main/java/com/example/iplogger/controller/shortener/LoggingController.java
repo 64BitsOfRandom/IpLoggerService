@@ -23,7 +23,8 @@ import java.util.Optional;
  * Дата последнего обращения логируется средствами JPA @see ShortLinkRepository
  */
 @Slf4j
-@RestController("/link")
+@RestController
+@RequestMapping("/link")
 @AllArgsConstructor
 public class LoggingController {
     private IpInfoService ipInfoService;

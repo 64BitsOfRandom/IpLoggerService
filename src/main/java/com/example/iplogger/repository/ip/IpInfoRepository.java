@@ -1,4 +1,4 @@
-package com.example.iplogger.repository;
+package com.example.iplogger.repository.ip;
 
 import com.example.iplogger.domain.persistance.IpData;
 import org.springframework.data.repository.PagingAndSortingRepository;

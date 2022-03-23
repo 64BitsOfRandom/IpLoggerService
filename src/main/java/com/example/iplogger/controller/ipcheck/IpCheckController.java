@@ -1,4 +1,4 @@
-package com.example.iplogger.controller;
+package com.example.iplogger.controller.ipcheck;
 
 import com.example.iplogger.domain.persistance.IpData;
 import com.example.iplogger.domain.rest.ipchecker.IpRequest;

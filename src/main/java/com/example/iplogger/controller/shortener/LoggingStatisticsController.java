@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
@@ -30,9 +29,9 @@ import java.util.Optional;
 public class LoggingStatisticsController {
     @Value("${application.host.url}")
     private String hostUrl;
-    private RandomCharSequenceSupplier shortIdSupplier;
-    private ShortLinkRepository linkRepository;
-    private LoggerStatisticsRecordsRepository statisticsRecordsRepository;
+    private final RandomCharSequenceSupplier shortIdSupplier;
+    private final ShortLinkRepository linkRepository;
+    private final LoggerStatisticsRecordsRepository statisticsRecordsRepository;
 
     @Autowired
     public LoggingStatisticsController(RandomCharSequenceSupplier shortIdSupplier, ShortLinkRepository linkRepository, LoggerStatisticsRecordsRepository statisticsRecordsRepository) {

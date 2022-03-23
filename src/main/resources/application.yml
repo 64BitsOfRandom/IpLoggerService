@@ -7,5 +7,9 @@ spring:
 #  datasource:
 #    embedded-database-connection: h2
 application:
+  host:
+    url: "http://localhost"
   provider:
     url: "http://ipwhois.app/json/"
+  short-link-supplier:
+    length: 6

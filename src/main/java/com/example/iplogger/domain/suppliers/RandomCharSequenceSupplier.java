@@ -1,29 +1,29 @@
 package com.example.iplogger.domain.suppliers;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import java.security.SecureRandom;
 import java.util.Random;
 import java.util.function.IntPredicate;
 import java.util.function.Supplier;
 
+@Component
 public class RandomCharSequenceSupplier implements Supplier<String> {
-    private final int SEQ_SIZE;
-    private final Random RANDOM;
+    @Value("${application.short-link-supplier.length}")
+    private int sequenceLength;
+    private final Random random;
 
-    public RandomCharSequenceSupplier(int size) {
-        this(new SecureRandom(), size);
-    }
-
-    public RandomCharSequenceSupplier(Random random, int size) {
-        this.RANDOM = random;
-        this.SEQ_SIZE = size;
+    public RandomCharSequenceSupplier() {
+        random = new SecureRandom();
     }
 
     @Override
     public String get() {
         IntPredicate predicate = new AlphaNumericPredicate();
-        return RANDOM.ints(46, 256)
+        return random.ints(46, 256)
                 .filter(predicate)
-                .limit(SEQ_SIZE)
+                .limit(sequenceLength)
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
     }
 
@@ -32,7 +32,7 @@ public class RandomCharSequenceSupplier implements Supplier<String> {
         public boolean test(int value) {
             return value > 64 && value < 91 || // nums
                    value > 96 && value < 123 || //A-Z
-                   value > 47 && value < 58;
+                   value > 47 && value < 58; //a-z
         }
     }
 }

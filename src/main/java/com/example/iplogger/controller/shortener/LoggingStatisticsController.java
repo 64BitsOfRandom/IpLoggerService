@@ -1,10 +1,13 @@
 package com.example.iplogger.controller.shortener;
 
+import com.example.iplogger.domain.persistance.LoggerStatisticsRecord;
 import com.example.iplogger.domain.persistance.ShortLinkRecord;
 import com.example.iplogger.domain.rest.logger.LoggerIdRequest;
 import com.example.iplogger.domain.rest.logger.LoggerResponse;
+import com.example.iplogger.domain.rest.logger.statistics.LoggerStatisticsResponse;
 import com.example.iplogger.domain.suppliers.RandomCharSequenceSupplier;
 import com.example.iplogger.repository.shortlink.ShortLinkRepository;
+import com.example.iplogger.repository.statistics.LoggerStatisticsRecordsRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +29,7 @@ public class LoggingStatisticsController {
     private String hostUrl;
     private RandomCharSequenceSupplier shortIdSupplier;
     private ShortLinkRepository linkRepository;
+    private LoggerStatisticsRecordsRepository statisticsRecordsRepository;
 
     /**
      * @param id идентификатор логера
@@ -46,9 +50,13 @@ public class LoggingStatisticsController {
      * @return Возвращает детальную информацию по логгеру
      */
     @GetMapping("/{id}/detailed")
-    public List<Object> getDetailedStatistics(@PathVariable String id) {
-        //TODO: добавить вторую репу и грести оттуда
-        return null;
+    public LoggerStatisticsResponse getDetailedStatistics(@PathVariable String id) {
+        List<LoggerStatisticsRecord> statisticsRecords = statisticsRecordsRepository.findAllByLoggerIdOrderByRequestTime(id);
+        if(statisticsRecords.isEmpty()){
+            log.info("Get info");
+            return null;
+        }
+        return LoggerStatisticsResponse.getLoggerStatisticsResponse(statisticsRecords);
     }
 
     /**

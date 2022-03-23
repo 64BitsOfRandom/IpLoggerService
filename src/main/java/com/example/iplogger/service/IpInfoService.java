@@ -22,9 +22,7 @@ public class IpInfoService {
         if(body == null){
             throw new IllegalArgumentException("Inappropriate data received from geoIP provider");
         }
-        //todo: IpWhoIsInfo -> IpData
-        // как лучше реализовать multisource - через прототип или заводить разных провайдеров, и выбирать нужный...
-        return null;
+        return body.getIpInfo();
     }
 
 

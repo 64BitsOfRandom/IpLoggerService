@@ -16,9 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * на вход приходит IP, на выходе - данные от провайдера. Сейчас реализован ipwhois.
- * TODO: сделать  интеграцию ipregistry.co (он точнее)
- * TODO: обеспечить модульность и переключаемость источника
- * TODO: может кэш?
  */
 
 @Slf4j

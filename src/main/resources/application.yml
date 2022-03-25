@@ -7,6 +7,8 @@ spring:
 #  datasource:
 #    embedded-database-connection: h2
 application:
+  paths:
+    path-to-image: "/image.jpg"
   host:
     url: "http://localhost:8080"
   provider:

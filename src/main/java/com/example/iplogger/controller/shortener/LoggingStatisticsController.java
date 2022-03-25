@@ -29,6 +29,8 @@ import java.util.Optional;
 public class LoggingStatisticsController {
     @Value("${application.host.url}")
     private String hostUrl;
+    @Value("${application.paths.path-to-image}")
+    private String pathToImage;
     private final RandomCharSequenceSupplier shortIdSupplier;
     private final ShortLinkRepository linkRepository;
     private final LoggerStatisticsRecordsRepository statisticsRecordsRepository;
@@ -83,6 +85,7 @@ public class LoggingStatisticsController {
                 .loggerId(generatedId)
                 .originateUrl(request.getOriginateUrl())
                 .shortLink(shortLink)
+                .loggingImageUrl(shortLink + pathToImage)
                 .statisticsUrl(statisticsLink)
                 .detailedStatisticsUrl(statisticsLink + "/detailed")
                 .build();
@@ -92,6 +95,7 @@ public class LoggingStatisticsController {
                 .originateUrl(request.getOriginateUrl())
                 .shortLink(shortLink)
                 .statisticsUrl(statisticsLink)
-                .detailedStatisticsUrl(statisticsLink + "/detailed").build();
+                .loggingImageUrl(linkRecord.getLoggingImageUrl())
+                .detailedStatisticsUrl(linkRecord.getDetailedStatisticsUrl()).build();
     }
 }

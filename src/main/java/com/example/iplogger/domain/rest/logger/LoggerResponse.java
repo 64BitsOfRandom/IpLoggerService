@@ -11,4 +11,6 @@ public class LoggerResponse {
     private String shortLink;
     private String statisticsUrl;
     private String detailedStatisticsUrl;
+    private String loggingImageUrl;
+
 }

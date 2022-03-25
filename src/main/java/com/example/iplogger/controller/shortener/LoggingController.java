@@ -80,6 +80,7 @@ public class LoggingController {
                 .isp(invokersInfo.getIsp())
                 .city(invokersInfo.getCity())
                 .country(invokersInfo.getCountry())
+                .browser(invokersInfo.getBrowser())
                 .latitude(invokersInfo.getCoordinates().getLatitude())
                 .longitude(invokersInfo.getCoordinates().getLongitude()).build();
         statisticsRecordsRepository.save(statisticsRecord);

@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class IpInfoService {
     private final RestTemplate template;
-    @Value("${application.provider.url}")
+    @Value("${application.provider.url: http://localhost:8080}")
     private String providerUrl;
 
     public IpResponse getInfoByIp(String targetAddress) {

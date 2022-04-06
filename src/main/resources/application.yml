@@ -9,8 +9,8 @@ spring:
 application:
   paths:
     path-to-image: "/image.jpg"
-  host:
-    url: "http://${ENV_HOST_IP}:${ENV_HOST_PORT}"
+#  host:
+#    url: "http://localhost:8888"
   provider:
     url: "http://ipwhois.app/json/"
   short-link-supplier:

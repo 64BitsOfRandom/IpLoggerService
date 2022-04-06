@@ -27,7 +27,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/statistics")
 public class LoggingStatisticsController {
-    @Value("${application.host.url}")
+    @Value("$#{systemProperties['hostUrl'] ?: 'localhost:8080'}")
     private String hostUrl;
     @Value("${application.paths.path-to-image}")
     private String pathToImage;

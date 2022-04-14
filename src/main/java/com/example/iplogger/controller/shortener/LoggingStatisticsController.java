@@ -34,7 +34,7 @@ import java.util.Optional;
 //@OpenAPIDefinition(info = "Сбор и учёт статистики")
 //@OpenAPIDefinition(tags = {@Tag(name = "Сбор и учёт статистики", description = "My controller")})
 public class LoggingStatisticsController {
-    @Value("${application.host.url}")
+    @Value("$#{systemProperties['hostUrl'] ?: 'localhost:8080'}")
     private String hostUrl;
     @Value("${application.paths.path-to-image}")
     private String pathToImage;

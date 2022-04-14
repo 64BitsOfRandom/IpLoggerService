@@ -6,6 +6,8 @@ import com.example.iplogger.domain.rest.ipchecker.IpResponse;
 import com.example.iplogger.repository.shortlink.ShortLinkRepository;
 import com.example.iplogger.repository.statistics.LoggerStatisticsRecordsRepository;
 import com.example.iplogger.service.IpInfoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,6 +44,8 @@ public class LoggingController {
     }
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/{id}")
+    @Tag(name = "Логирование запросов")
+    @Operation(summary = "Запись запроса для перехода по короткой ссылке", description = "использует перенеправление")
     public void logAndRedirect(@PathVariable String id, HttpServletRequest request, HttpServletResponse response) throws IOException {
         String redirectUrl = logRequestAndGetRedirectUrl(id, request);
         if (redirectUrl.isEmpty()) {
@@ -53,6 +57,8 @@ public class LoggingController {
     }
 
     @GetMapping(value = "/{id}/image.jpg", produces = MediaType.IMAGE_JPEG_VALUE)
+    @Tag(name = "Логирование запросов")
+    @Operation(summary = "Запись запроса к по невидимой ссылке", description = "может использоваться для встраивания в веб-ресурсы")
     public byte[] getImage(@PathVariable String id, HttpServletRequest request) throws IOException {
         InputStream input = getClass().getResourceAsStream(pathToImage);
         if (input == null) {

@@ -6,6 +6,8 @@ import com.example.iplogger.domain.rest.ipchecker.IpResponse;
 import com.example.iplogger.service.IpInfoService;
 import eu.bitwalker.useragentutils.Browser;
 import eu.bitwalker.useragentutils.UserAgent;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -26,6 +28,8 @@ public class IpCheckController {
     private final IpInfoService ipInfoService;
 
     @GetMapping
+    @Tag(name = "Получение информации по IP адресу")
+    @Operation(summary = "для произвольного запрашиваемого IP")
     public IpResponse getInfoByIp(@RequestBody IpRequest request, @RequestHeader(value = "User-Agent", required = false) String userAgent, HttpServletRequest httpServletRequest) {
         String requestedIp = request.getIp();
         log.info("Received request for IP: {} from {}", request, requestedIp);
@@ -37,6 +41,8 @@ public class IpCheckController {
     }
 
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/me")
+    @Tag(name = "Получение информации по IP адресу")
+    @Operation(summary = "для IP источника запроса")
     public IpResponse getOwnIpData(HttpServletRequest req, @RequestHeader(value = "User-Agent", required = false) String userAgent) {
         String remoteAddress = req.getRemoteAddr();
         log.info("Received request for own IP: {}", remoteAddress);

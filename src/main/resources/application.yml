@@ -10,7 +10,7 @@ application:
   paths:
     path-to-image: "/image.jpg"
   host:
-    url: "http://${ENV_HOST_IP}:${ENV_HOST_PORT}"
+    url: "http://51.250.104.164:8080"
   provider:
     url: "http://ipwhois.app/json/"
   short-link-supplier:

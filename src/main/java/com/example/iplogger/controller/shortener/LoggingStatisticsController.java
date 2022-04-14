@@ -8,6 +8,10 @@ import com.example.iplogger.domain.rest.logger.statistics.LoggerStatisticsRespon
 import com.example.iplogger.domain.suppliers.RandomCharSequenceSupplier;
 import com.example.iplogger.repository.shortlink.ShortLinkRepository;
 import com.example.iplogger.repository.statistics.LoggerStatisticsRecordsRepository;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +30,9 @@ import java.util.Optional;
 @Slf4j
 @RestController
 @RequestMapping("/statistics")
+//@Operation(tags = "Сбор и учёт статистики"))
+//@OpenAPIDefinition(info = "Сбор и учёт статистики")
+//@OpenAPIDefinition(tags = {@Tag(name = "Сбор и учёт статистики", description = "My controller")})
 public class LoggingStatisticsController {
     @Value("${application.host.url}")
     private String hostUrl;
@@ -44,9 +51,11 @@ public class LoggingStatisticsController {
 
     /**
      * @param id идентификатор логера
-     * @return Возвращает общую информацию по логгеру
+     * @return Возвращает общую информацию по логеру
      */
     @GetMapping("/{id}")
+    @Tag(name = "Интерфейс для работы со статистикой логирования")
+    @Operation(summary = "Получение общей статистики по идентификатору логера")
     public ShortLinkRecord getSummeryStatistics(@PathVariable String id, HttpServletResponse response) throws IOException {
         Optional<ShortLinkRecord> record = linkRepository.findById(id);
         if (record.isEmpty()) {
@@ -59,9 +68,11 @@ public class LoggingStatisticsController {
 
     /**
      * @param id идентификатор логера
-     * @return Возвращает детальную информацию по логгеру
+     * @return Возвращает детальную информацию по логеру
      */
     @GetMapping("/{id}/detailed")
+    @Tag(name = "Интерфейс для работы со статистикой логирования")
+    @Operation(summary = "Получение детальной статистики запросов по идентификатору логера")
     public LoggerStatisticsResponse getDetailedStatistics(@PathVariable String id, HttpServletResponse response)  throws IOException {
         List<LoggerStatisticsRecord> statisticsRecords = statisticsRecordsRepository.findAllByLoggerIdOrderByRequestTime(id);
         if(statisticsRecords.isEmpty()){
@@ -73,10 +84,12 @@ public class LoggingStatisticsController {
     }
 
     /**
-     * Метод создаёт новый логгер для URL
-     * @return ShortLinkRecord - информация по записи о логгере
+     * Метод создаёт новый логер для URL
+     * @return ShortLinkRecord - информация по записи о логере
      */
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "/create")
+    @Tag(name = "Интерфейс для работы со статистикой логирования")
+    @Operation(summary = "Создание логера")
     public LoggerResponse createLink(@RequestBody LoggerIdRequest request) {
         String generatedId = shortIdSupplier.get();
         String shortLink = hostUrl + "/link/" + generatedId;
